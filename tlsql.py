@@ -21,6 +21,7 @@ def view():
     cursor.execute('SELECT * FROM tweet')
     for i in cursor.fetchall():
         bin.append(i)
+    bin.sort(reverse=True)
     return bin
 
 def like(interger):
