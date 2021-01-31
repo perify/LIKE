@@ -33,3 +33,14 @@ def login_action():
         return home_action()
     else:
         return render_template('login.html', unmatch=True)
+
+
+@app.route('/signup')
+def signup_form():
+    return render_template('newuser.html')
+
+
+@app.route('/signup', methods=['POST'])
+def signup_action():
+    tlsql.user_insert(request.form['username'], request.form['password'], request.form['Email'])
+    return home_action()
