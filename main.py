@@ -44,3 +44,7 @@ def signup_form():
 def signup_action():
     tlsql.user_insert(request.form['username'], request.form['password'], request.form['Email'])
     return home_action()
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True, port=5000)

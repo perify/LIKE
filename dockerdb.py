@@ -1,0 +1,1 @@
+db_twitter_local_data = ["localhost", "root", "RP67UxCyZ4204pl4", "twitter"]

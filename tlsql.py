@@ -1,12 +1,12 @@
 import mysql.connector
 import datetime
 import sys
-import localdb
+import dockerdb
 
-conn = mysql.connector.connect(host=localdb.db_twitter_local_data[0],
-                               user=localdb.db_twitter_local_data[1],
-                               password=localdb.db_twitter_local_data[2],
-                               database=localdb.db_twitter_local_data[3])
+conn = mysql.connector.connect(host=dockerdb.db_twitter_local_data[0],
+                               user=dockerdb.db_twitter_local_data[1],
+                               password=dockerdb.db_twitter_local_data[2],
+                               database=dockerdb.db_twitter_local_data[3])
 cursor = conn.cursor()
 
 
