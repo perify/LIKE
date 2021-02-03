@@ -31,8 +31,7 @@ def login_form():
 def login_action():
     if tlsql.login(request.form['username'], request.form['password']) == "ok":
         return home_action()
-    else:
-        return render_template('login.html', unmatch=True)
+    return render_template('login.html', unmatch=True)
 
 
 @app.route('/signup')
