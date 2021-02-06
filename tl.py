@@ -31,8 +31,7 @@ while True:
                 login_bin = command_bin[1].split()
                 if tlsql.login(login_bin[0], login_bin[1]) == "ok":
                     break
-                else:
-                    print("君は道を間違えたようだ。戻りたまえ。")
+                print("君は道を間違えたようだ。戻りたまえ。")
 
 while True:
     command = input()
