@@ -7,13 +7,14 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
+      MYSQL_DATABASE: twitter
+      MYSQL_USER: debuger
+      MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: RP67UxCyZ4204pl4
-
-  adminer:
-    image: adminer
-    restart: always
+    volumes:
+      - ./docker/mysql/initdb.d:/docker-entrypoint-initdb.d
     ports:
-      - 8080:8080
+      - 4000:3306
 
   web:
     build: .
