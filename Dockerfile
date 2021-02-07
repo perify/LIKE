@@ -3,4 +3,4 @@ RUN mkdir /twitter
 WORKDIR /twitter
 COPY . /twitter
 RUN pip3 install -r requirements.txt
-CMD ["python", "main.py"]
+CMD ["bash", "main_run.sh"]
