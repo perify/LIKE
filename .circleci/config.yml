@@ -19,7 +19,6 @@ jobs:
           command: |
             docker pull hadolint/hadolint:latest-debian
             docker run --rm -i hadolint/hadolint:latest-debian < Dockerfile
-            docker run --rm -i hadolint/hadolint:latest-debian < docker-compose.yaml
 
       - run:
           name: docker-compose up
@@ -30,8 +29,9 @@ jobs:
       - run:
           name: flake8
           command: |
-            - pip3 install flake8
-            - flake8
+            docker pull alpine/flake8
+            alias flake="docker run -ti --rm -v $(pwd):/apps alpine/flake8:3.5.0"
+            flake8
 
       - run:
           name: docker-compose stop
