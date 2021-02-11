@@ -23,6 +23,7 @@ jobs:
           command: |
             set -x
             docker-compose stop
+
       - run:
           name: docker-compose up
           command: |
@@ -32,7 +33,7 @@ jobs:
       - run:
           name: hadolint
           command: |
-            - docker pull hadolint/hadolint
+            - docker pull hadolint/hadolint:latest-debian
             - hadolint Dockerfile
             - hadolint docker-compose
 
