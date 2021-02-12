@@ -18,7 +18,7 @@ jobs:
           name: flake8
           command: |
             docker pull alpine/flake8
-            docker run -ti --rm -v $(pwd):/repo alpine/flake8
+            docker run -ti --rm -v $(pwd):/apps alpine/flake8 .
 
       - run:
           name: hadolint
