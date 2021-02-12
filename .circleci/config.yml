@@ -15,6 +15,12 @@ jobs:
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
 
       - run:
+          name: flake8
+          command: |
+            docker pull alpine/flake8
+            docker run -ti --rm -v $(pwd):/repo alpine/flake8
+
+      - run:
           name: hadolint
           command: |
             docker pull hadolint/hadolint:latest-debian
@@ -25,13 +31,6 @@ jobs:
           command: |
             set -x
             docker-compose up --build -d
-
-      - run:
-          name: flake8
-          command: |
-            docker pull alpine/flake8
-            alias flake="docker run -ti --rm -v $(pwd):/apps alpine/flake8:3.5.0"
-            flake8
 
       - run:
           name: docker-compose stop
