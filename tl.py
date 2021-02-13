@@ -61,4 +61,4 @@ while True:
             if len(command_bin) == 1:
                 print("error")
             elif len(command_bin) == 2:
-                tlsql.Del(int(command_bin[1]))
+                tlsql.delete(int(command_bin[1]))
