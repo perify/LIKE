@@ -1,6 +1,5 @@
 import mysql.connector
 import datetime
-import sys
 import dockerdb
 
 conn = mysql.connector.connect(host=dockerdb.db_twitter_local_data[0],
@@ -17,25 +16,20 @@ def tweet(string):
 
 
 def view():
-    bin = []
+    tweet_list = []
     cursor.execute('SELECT * FROM tweet')
     for i in cursor.fetchall():
-        bin.append(i)
-    bin.sort(reverse=True)
-    return bin
+        tweet_list.append(i)
+    tweet_list.sort(reverse=True)
+    return tweet_list
+
 
 def like(interger):
     cursor.execute('UPDATE tweet set likec=likec+1 where num = {}'.format(interger))
 
 
-def Del(interger):
+def delete(interger):
     cursor.execute('DELETE FROM tweet where num={}'.format(interger))
-
-
-def exit():
-    exitsql()
-    sys.exit()
-
 
 # def password_hash(string):
 #    string.encode('utf-8')
@@ -45,8 +39,8 @@ def exit():
 # TODO: build password_hash system
 
 
-def user_insert(ID, PASSWORD, EMIL):
-    cursor.execute('INSERT INTO users values("{}","{}","{}")'.format(ID, PASSWORD, EMIL))
+def user_insert(id, password, email):
+    cursor.execute('INSERT INTO users values("{}","{}","{}")'.format(id, password, email))
     conn.commit()
 
 
@@ -62,16 +56,15 @@ def exitsql():
     conn.close()
 
 
-def login(ID, PASSWORD):
+def login(id, password):
     login_bin = []
-    cursor.execute('select * from users where ID=\'{}\''.format(ID))
+    cursor.execute('select * from users where ID=\'{}\''.format(id))
     for i in cursor.fetchall():
         login_bin.append(i)
-    if login_bin[0][1] == PASSWORD:
+    if login_bin[0][1] == password:
         # login complete!!
         login_if = "ok"
     else:
         login_if = "no"
 
     return login_if
-
