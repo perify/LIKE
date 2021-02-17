@@ -15,8 +15,8 @@
       <h1>login</h1>
       <form method="post">
         <div class="form-group">
-          <label for="exampleInputEmail1">username</label>
-          <input type="text" name="username" class="form-control" placeholder="username">
+          <label for="exampleInputEmail1">Email</label>
+          <input type="email" class="form-control" id="InputEmail" name="email" aria-describedby="emailHelp" placeholder="Email">
           {% if unmatch %}
           <small id="keynone" class="form-text">メールアドレスまたはパスワードが違います</small>
           {% endif %}
@@ -25,6 +25,7 @@
           <label for="exampleInputEmail1">Password</label>
           <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
         </div>
+        <a href="{{url_for('signup_form')}}"><p>sign up</p></a>
         <button type="submit" class="btn btn-primary">login</button>
       </form>
     </div>

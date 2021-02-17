@@ -1,12 +1,15 @@
 import mysql.connector
 import datetime
 import dockerdb
+from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, login_manager
 
 conn = mysql.connector.connect(host=dockerdb.db_twitter_local_data[0],
                                user=dockerdb.db_twitter_local_data[1],
                                password=dockerdb.db_twitter_local_data[2],
                                database=dockerdb.db_twitter_local_data[3])
 cursor = conn.cursor()
+
+users = {'foo@bar.tld': {'password': 'secret'}}
 
 
 def tweet(string):
@@ -30,6 +33,7 @@ def like(interger):
 
 def delete(interger):
     cursor.execute('DELETE FROM tweet where num={}'.format(interger))
+
 
 # def password_hash(string):
 #    string.encode('utf-8')
@@ -56,15 +60,7 @@ def exitsql():
     conn.close()
 
 
-def login(id, password):
-    login_bin = []
-    cursor.execute('select * from users where ID=\'{}\''.format(id))
+def user_load():
+    cursor.execute('select * from users')
     for i in cursor.fetchall():
-        login_bin.append(i)
-    if login_bin[0][1] == password:
-        # login complete!!
-        login_if = "ok"
-    else:
-        login_if = "no"
-
-    return login_if
+        users.setdefault(i[2], {'password': i[0]})

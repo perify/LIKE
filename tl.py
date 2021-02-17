@@ -29,7 +29,7 @@ while True:
                 print("error")
             elif len(command_bin) == 2:
                 login_bin = command_bin[1].split()
-                if tlsql.login(login_bin[0], login_bin[1]) == "ok":
+                if tlsql.user_load() == "ok":
                     break
                 print("君は道を間違えたようだ。戻りたまえ。")
 

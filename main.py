@@ -1,6 +1,5 @@
 from flask import request, render_template, redirect, url_for, Flask
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
-import User
 import tlsql
 
 app = Flask(__name__)
@@ -10,6 +9,36 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 login_status = []
+
+
+class User(UserMixin):
+    pass
+
+
+@login_manager.user_loader
+def user_loader(email):
+    if email not in tlsql.users:
+        return
+
+    user = User()
+    user.id = email
+    return user
+
+
+@login_manager.request_loader
+def request_loader(request):
+    email = request.form.get('email')
+    if email not in tlsql.users:
+        return
+
+    user = User()
+    user.id = email
+
+    # DO NOT ever store passwords in plaintext and always compare password
+    # hashes using constant-time comparison!
+    user.is_authenticated = request.form['password'] == tlsql.users[email]['password']
+
+    return user
 
 
 @app.route('/')
@@ -34,9 +63,15 @@ def login():
 
 @app.route('/login', methods=['POST'])
 def login_action():
-    if tlsql.login(request.form['username'], request.form['password']) == "ok":
-        login_user(request.form['username'],)
+    # if tlsql.login(request.form['username'], request.form['password']) == "ok":
+    tlsql.user_load()
+    email = request.form['email']
+    if request.form['password'] == tlsql.users[email]['password']:
+        user = User()
+        user.id = email
+        login_user(user)
         return redirect(url_for('home_action'))
+
     return render_template('login.html', unmatch=True)
 
 
@@ -48,12 +83,13 @@ def signup_form():
 @app.route('/signup', methods=['POST'])
 def signup_action():
     tlsql.user_insert(request.form['username'], request.form['password'], request.form['Email'])
-    return home_action()
+    return redirect(url_for('login'))
 
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User()
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 
 if __name__ == "__main__":
