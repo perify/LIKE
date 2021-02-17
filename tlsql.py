@@ -1,7 +1,8 @@
-import mysql.connector
 import datetime
+
+import mysql.connector
+
 import dockerdb
-from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin, login_manager
 
 conn = mysql.connector.connect(host=dockerdb.db_twitter_local_data[0],
                                user=dockerdb.db_twitter_local_data[1],
