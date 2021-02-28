@@ -2,6 +2,7 @@ import mysql.connector
 import datetime
 import dockerdb
 
+
 conn = mysql.connector.connect(host=dockerdb.db_twitter_local_data[0],
                                user=dockerdb.db_twitter_local_data[1],
                                password=dockerdb.db_twitter_local_data[2],
@@ -11,7 +12,8 @@ cursor = conn.cursor()
 
 def tweet(string):
     cursor.execute(
-        'INSERT INTO tweet (id,teatime,tweet) values("tatsu","{}","{}")'.format(datetime.datetime.today(), string))
+        'INSERT INTO tweet (username,teatime,tweet) values("{}","{}","{}")'.format("tatsu", datetime.datetime.today(),
+                                                                                   string))
     conn.commit()
 
 
@@ -25,11 +27,8 @@ def view():
 
 
 def like(interger):
-    cursor.execute('UPDATE tweet set likec=likec+1 where num = {}'.format(interger))
+    cursor.execute('UPDATE tweet set like_count=like_count+1 where num = {}'.format(interger))
 
-
-def delete(interger):
-    cursor.execute('DELETE FROM tweet where num={}'.format(interger))
 
 # def password_hash(string):
 #    string.encode('utf-8')
@@ -39,26 +38,27 @@ def delete(interger):
 # TODO: build password_hash system
 
 
-def user_insert(id, password, email):
-    cursor.execute('INSERT INTO users values("{}","{}","{}")'.format(id, password, email))
+def user_insert(username, password, email):
+    cursor.execute('INSERT INTO users values("{}","{}","{}")'.format(username, password, email))
     conn.commit()
 
 
 def userlist():
+    users = []
     cursor.execute('select * from users')
     for i in cursor.fetchall():
-        print(i)
+        users.append(i)
     conn.commit()
+    return users
 
 
-def exitsql():
-    cursor.close()
-    conn.close()
+def delete(interger):
+    cursor.execute('DELETE FROM tweet where num={}'.format(interger))
 
 
-def login(id, password):
+def login(username, password):
     login_bin = []
-    cursor.execute('select * from users where ID=\'{}\''.format(id))
+    cursor.execute('select * from users where username=\'{}\''.format(username))
     for i in cursor.fetchall():
         login_bin.append(i)
     if login_bin[0][1] == password:

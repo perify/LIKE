@@ -5,45 +5,38 @@ import tlsql
 app = Flask(__name__)
 
 
-@app.route('/')
-def home_action():
+@app.route('/', methods=['GET', 'POST'])
+def home():
     tweets = []
-    for i in tlsql.view():
-        tweets.append(i)
-    return render_template('home.html', tweets=tweets)
+
+    if request.method == 'GET':
+        for i in tlsql.view():
+            tweets.append(i)
+        return render_template('home.html', tweets=tweets)
+
+    elif request.method == 'POST':
+        tlsql.tweet(request.form['message'])
+        for i in tlsql.view():
+            tweets.append(i)
+        return render_template('home.html', tweets=tweets)
 
 
-@app.route('/', methods=['POST'])
-def tweet_action():
-    tweets = []
-    tlsql.tweet(request.form['message'])
-    for i in tlsql.view():
-        tweets.append(i)
-    return render_template('home.html', tweets=tweets)
+@app.route('/sign_in', methods=['GET', 'POST'])
+def sign_in():
+    if request.method == 'GET':
+        return render_template('login.html')
+
+    elif request.method == 'POST':
+        if tlsql.login(request.form['username'], request.form['password']) == "ok":
+            return home()
+        return render_template('login.html', unmatch=True)
 
 
-@app.route('/login')
-def login_form():
-    return render_template('login.html')
+@app.route('/sign_up', methods=['GET', 'POST'])
+def sign_up():
+    if request.method == 'GET':
+        return render_template('newuser.html')
 
-
-@app.route('/login', methods=['POST'])
-def login_action():
-    if tlsql.login(request.form['username'], request.form['password']) == "ok":
-        return home_action()
-    return render_template('login.html', unmatch=True)
-
-
-@app.route('/signup')
-def signup_form():
-    return render_template('newuser.html')
-
-
-@app.route('/signup', methods=['POST'])
-def signup_action():
-    tlsql.user_insert(request.form['username'], request.form['password'], request.form['Email'])
-    return home_action()
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True, port=5000)
+    elif request.method == 'POST':
+        tlsql.user_insert(request.form['username'], request.form['password'], request.form['Email'])
+        return home()
