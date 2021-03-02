@@ -1,7 +1,6 @@
 import mysql.connector
 import datetime
 import dockerdb
-import login
 
 
 conn = mysql.connector.connect(host=dockerdb.db_twitter_local_data[0],
