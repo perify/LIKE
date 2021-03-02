@@ -1,6 +1,7 @@
 import mysql.connector
 import datetime
 import dockerdb
+import login
 
 
 conn = mysql.connector.connect(host=dockerdb.db_twitter_local_data[0],
@@ -10,9 +11,9 @@ conn = mysql.connector.connect(host=dockerdb.db_twitter_local_data[0],
 cursor = conn.cursor()
 
 
-def tweet(string):
+def tweet(string, username):
     cursor.execute(
-        'INSERT INTO tweet (username,teatime,tweet) values("{}","{}","{}")'.format("tatsu", datetime.datetime.today(),
+        'INSERT INTO tweet (username,teatime,tweet) values("{}","{}","{}")'.format(username, datetime.datetime.today(),
                                                                                    string))
     conn.commit()
 
@@ -48,7 +49,6 @@ def userlist():
     cursor.execute('select * from users')
     for i in cursor.fetchall():
         users.append(i)
-    conn.commit()
     return users
 
 

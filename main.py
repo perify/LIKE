@@ -1,12 +1,16 @@
-from flask import request, render_template, Flask
+from flask import request, render_template, Flask, redirect
 
 import tlsql
+import login
 
 app = Flask(__name__)
+app.secret_key = 'fadjksjladsfa'
 
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    if not login.is_login():
+        return redirect('/sign_in')
     tweets = []
 
     if request.method == 'GET':
@@ -15,7 +19,7 @@ def home():
         return render_template('home.html', tweets=tweets)
 
     elif request.method == 'POST':
-        tlsql.tweet(request.form['message'])
+        tlsql.tweet(request.form['message'], login.get_user())
         for i in tlsql.view():
             tweets.append(i)
         return render_template('home.html', tweets=tweets)
@@ -27,8 +31,8 @@ def sign_in():
         return render_template('login.html')
 
     elif request.method == 'POST':
-        if tlsql.login(request.form['username'], request.form['password']) == "ok":
-            return home()
+        if login.try_login(request.form['username'], request.form['password']):
+            return redirect('/')
         return render_template('login.html', unmatch=True)
 
 
@@ -40,3 +44,9 @@ def sign_up():
     elif request.method == 'POST':
         tlsql.user_insert(request.form['username'], request.form['password'], request.form['Email'])
         return home()
+
+
+@app.route('/sign_out', methods=['GET'])
+def sign_out():
+    login.try_logout()
+    return redirect('/sign_in')
