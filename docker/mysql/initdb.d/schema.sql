@@ -9,7 +9,8 @@ CREATE TABLE `tweet` (
 );
 
 CREATE TABLE `users` (
-  `username` varchar(20) NOT NULL,
+  `username` varchar(20) UNIQUE NOT NULL AUTO_INCREMENT,
   `password` varchar(60) NOT NULL,
-  `email` varchar(30) NOT NULL
+  `email` varchar(30) UNIQUE NOT NULL,
+  primary key (`username`)
 );

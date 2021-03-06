@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>login</title>
+    <title>Sign in</title>
 
   </head>
 
@@ -14,7 +14,7 @@
 
     <div class="container">
 
-      <h1>login</h1>
+      <h1>Sign in</h1>
 
       <form method="post">
 
@@ -34,8 +34,8 @@
           <input type="password" class="form-control" id="InputPassword" name="password" placeholder="Password">
 
         </div>
-
-        <button type="submit" class="btn btn-primary">login</button>
+        <p><a href="{{ url_for('sign_up') }}">Create an account</a></p>
+        <button type="submit" class="btn btn-primary">sign in</button>
 
       </form>
 

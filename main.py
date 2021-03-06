@@ -19,10 +19,20 @@ def home():
         return render_template('home.html', tweets=tweets)
 
     if request.method == 'POST':
+        if not request.form['message']:
+            for i in tlsql.view():
+                tweets.append(i)
+            return render_template('home.html', tweets=tweets)
         tlsql.tweet(request.form['message'], login.get_user())
         for i in tlsql.view():
             tweets.append(i)
         return render_template('home.html', tweets=tweets)
+
+
+@app.route('/like/<int:interger>')
+def like(interger):
+    tlsql.like(interger)
+    return redirect('/')
 
 
 @app.route('/sign_in', methods=['GET', 'POST'])
