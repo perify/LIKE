@@ -58,8 +58,7 @@ def sign_up():
         if tlsql.user_insert(request.form['username'], request.form['password'],
                              request.form['Email']) == 'uniqueerror':
             return 'unique error'
-        else:
-            return home()
+        return home()
 
 
 @app.route('/sign_out', methods=['GET'])
