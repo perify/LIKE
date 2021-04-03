@@ -30,7 +30,7 @@
           <div class="list-group-item">
             <p class="list-group-item-text">user:{{ tweets[1] }}</p>
             <div style="text-align:justify; text-justify:distribute-all-lines">{{ tweets[3] }}</div>
-            <footer class="list-group-item-text text-right text-muted"><a href="{{ url_for('like', interger=tweets[0]) }}">{{ tweets[4] }}</a> {{ tweets[5] }} {{ tweets[2].strftime('%Y-%m-%d %H:%M:%S %z') }}</footer>
+            <footer class="list-group-item-text text-right text-muted"><a href="{{ url_for('like', interger=tweets[0]) }}">test</a>{{ tweets[2].strftime('%Y-%m-%d %H:%M:%S %z') }}</footer>
           </div>
         {% endfor %}
       </div>

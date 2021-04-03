@@ -2,7 +2,6 @@ import mysql.connector
 import datetime
 import dockerdb
 
-
 conn = mysql.connector.connect(host=dockerdb.db_twitter_local_data[0],
                                user=dockerdb.db_twitter_local_data[1],
                                password=dockerdb.db_twitter_local_data[2],
@@ -12,8 +11,9 @@ cursor = conn.cursor()
 
 def tweet(string, username):
     cursor.execute(
-        'INSERT INTO tweet (username,teatime,tweet) values("{}","{}","{}")'.format(username, datetime.datetime.today(),
-                                                                                   string))
+        'INSERT INTO tweet (username,tweet_time,tweet) values("{}","{}","{}")'.format(username,
+                                                                                      datetime.datetime.today(),
+                                                                                      string))
     conn.commit()
 
 
@@ -26,8 +26,16 @@ def view():
     return tweet_list
 
 
-def like(interger):
-    cursor.execute('UPDATE tweet set like_count=like_count+1 where num = {}'.format(interger))
+def like(interger, user_number):
+    try:
+        cursor.execute(
+            'INSERT INTO likes (tweet_number,user_number,like_time) values("{}","{}","{}")'.format(interger,
+                                                                                                   user_number,
+                                                                                                   datetime.datetime.today()))
+
+        conn.commit()
+    except mysql.connector.errors.IntegrityError:
+        cursor.execute('DELETE FROM likes where user_number = {}'.format(user_number))
 
 
 # def password_hash(string):
@@ -39,8 +47,13 @@ def like(interger):
 
 
 def user_insert(username, password, email):
-    cursor.execute('INSERT INTO users values("{}","{}","{}")'.format(username, password, email))
-    conn.commit()
+    try:
+        cursor.execute(
+            'INSERT INTO users (username,password,email) values("{}","{}","{}")'.format(username, password, email))
+        conn.commit()
+
+    except mysql.connector.errors.IntegrityError:
+        return 'uniquerror'
 
 
 def userlist():
@@ -53,17 +66,3 @@ def userlist():
 
 def delete(interger):
     cursor.execute('DELETE FROM tweet where num={}'.format(interger))
-
-
-def login(username, password):
-    login_bin = []
-    cursor.execute('select * from users where username=\'{}\''.format(username))
-    for i in cursor.fetchall():
-        login_bin.append(i)
-    if login_bin[0][1] == password:
-        # login complete!!
-        login_if = "ok"
-    else:
-        login_if = "no"
-
-    return login_if

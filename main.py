@@ -31,8 +31,11 @@ def home():
 
 @app.route('/like/<int:interger>')
 def like(interger):
-    tlsql.like(interger)
+    tlsql.like(interger, 0)
     return redirect('/')
+
+
+# TODO not login.get_user()>user_number. user_number>user_number. debugging because (interger 0)
 
 
 @app.route('/sign_in', methods=['GET', 'POST'])
@@ -52,8 +55,11 @@ def sign_up():
         return render_template('newuser.html')
 
     if request.method == 'POST':
-        tlsql.user_insert(request.form['username'], request.form['password'], request.form['Email'])
-        return home()
+        if tlsql.user_insert(request.form['username'], request.form['password'],
+                             request.form['Email']) == 'uniqueerror':
+            return 'unique error'
+        else:
+            return home()
 
 
 @app.route('/sign_out', methods=['GET'])
