@@ -16,7 +16,8 @@ CREATE TABLE users (
 
 CREATE TABLE likes (
     tweet_number int NOT NULL,
-    user_number int UNIQUE NOT NULL,
+    user_number int NOT NULL,
     like_time datetime DEFAULT NULL,
-    primary key (tweet_number, user_number)
+    primary key (tweet_number, user_number),
+    unique (tweet_number, user_number)
 );

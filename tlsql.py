@@ -21,9 +21,19 @@ def view():
     tweet_list = []
     cursor.execute('SELECT * FROM tweet')
     for i in cursor.fetchall():
+        i = list(i)
+        i.append(like_count(i[0]))
         tweet_list.append(i)
     tweet_list.sort(reverse=True)
     return tweet_list
+
+
+def like_count(interger):
+    x = 0
+    cursor.execute(f'SELECT count(tweet_number) FROM likes where tweet_number = {interger}')
+    for i in cursor.fetchall():
+        x = i
+    return int(x[0])
 
 
 def like(interger, user_number):
@@ -35,7 +45,7 @@ def like(interger, user_number):
 
         conn.commit()
     except mysql.connector.errors.IntegrityError:
-        cursor.execute('DELETE FROM likes where user_number = {}'.format(user_number))
+        cursor.execute('DELETE FROM likes where (tweet_number= {} and user_number = {})'.format(interger ,user_number))
 
 
 # def password_hash(string):
