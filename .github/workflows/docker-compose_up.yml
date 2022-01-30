@@ -17,11 +17,9 @@ jobs:
     - uses: KengoTODA/actions-setup-docker-compose@main
       with:
         version: '1.29.2'
-    - name: Build the Docker image
-      run: docker-compose build
 
     - name: docker-compose up
-      run: docker-compose up
+      run: docker-compose up --build -d
 
     - name: docker-compose stop
       run: docker-compose stop
