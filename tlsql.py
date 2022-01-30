@@ -45,7 +45,7 @@ def like(interger, user_number):
 
         conn.commit()
     except mysql.connector.errors.IntegrityError:
-        cursor.execute('DELETE FROM likes where (tweet_number= {} and user_number = {})'.format(interger ,user_number))
+        cursor.execute('DELETE FROM likes where (tweet_number= {} and user_number = {})'.format(interger, user_number))
 
 
 # def password_hash(string):
