@@ -1,0 +1,51 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: KengoTODA/actions-setup-docker-compose@main
+      with:
+        version: '1.29.2'
+
+    - name: docker-compose up
+      run: docker-compose up --build -d
+
+    - name: docker-compose stop
+      run: docker-compose stop
+
+  flake8:
+  
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    
+    - name: Lintly-Flake8
+      uses: grantmcconnaughey/lintly-flake8-github-action@v1.0
+      with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --ignore=E501
+
+  
+  hadolint:
+  
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+    - uses: actions/checkout@v2 
+    - uses: hadolint/hadolint-action@v1.6.0
+      with:
+        dockerfile: Dockerfile
+  
