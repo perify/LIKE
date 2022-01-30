@@ -1,0 +1,25 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: KengoTODA/actions-setup-docker-compose@main
+    - name: Build the Docker image
+      run: docker-compose build
+
+    - name: docker-compose up
+      run: docker-compose up
+
+    - name: docker-compose stop
+     run: docker-compose stop
