@@ -30,11 +30,13 @@ jobs:
     needs: build
     
     steps:
-      - name: Flake8 run
-        uses: tonybajan/flake8-check-action@v1.2.0
-        with:
-          ignore: E501
-  
+    
+    - name: Lintly-Flake8
+      uses: grantmcconnaughey/lintly-flake8-github-action@v1.0
+      with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --ignore=E501
+
   
   hadolint:
   
