@@ -48,10 +48,6 @@ def like(interger, user_number):
         cursor.execute('DELETE FROM likes where (tweet_number= {} and user_number = {})'.format(interger, user_number))
 
 
-# def password_hash(string):
-#    string.encode('utf-8')
-#    string = bcrypt.hashpw(string,salt=bcrypt.gensalt(rounds=12,prefix=b'2a'))
-#    return string
 
 # TODO: build password_hash system
 
