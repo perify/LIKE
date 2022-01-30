@@ -9,7 +9,7 @@ def is_login():
 def try_login(user, password):
     userlist = {}
     for i in tlsql.userlist():
-        userlist[i[0]] = i[1]
+        userlist[i[1]] = i[2]
     if user not in userlist:
         return False
     if userlist[user] != password:
