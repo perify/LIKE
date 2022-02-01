@@ -1,6 +1,7 @@
 import mysql.connector
 import datetime
 import dockerdb
+import login
 
 conn = mysql.connector.connect(host=dockerdb.db_twitter_local_data[0],
                                user=dockerdb.db_twitter_local_data[1],
@@ -52,9 +53,10 @@ def like(interger, user_number):
 
 
 def user_insert(username, password, email):
+    after_hash, salt = login.hash_password(password)
     try:
         cursor.execute(
-            'INSERT INTO users (username,password,email) values("{}","{}","{}")'.format(username, password, email))
+            'INSERT INTO users (username,password,email,salt) values("{}","{}","{}","{}")'.format(username, after_hash, email, salt))
         conn.commit()
 
     except mysql.connector.errors.IntegrityError:

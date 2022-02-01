@@ -9,8 +9,9 @@ CREATE TABLE tweet (
 CREATE TABLE users (
   num int NOT NULL AUTO_INCREMENT,
   username varchar(20) UNIQUE NOT NULL,
-  password varchar(60) NOT NULL,
+  password char(64) NOT NULL,
   email varchar(30) UNIQUE NOT NULL,
+  salt char(16) NOT NULL,
   primary key (num)
 );
 
