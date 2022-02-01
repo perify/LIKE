@@ -2,7 +2,6 @@ from flask import session
 import tlsql
 import hashlib
 import secrets
-import main
 
 
 def hash_password(password, salt=secrets.token_hex(8)):
