@@ -31,7 +31,7 @@ def home():
 
 @app.route('/like/<int:interger>')
 def like(interger):
-    tlsql.like(interger, 0)
+    tlsql.like(interger, login.get_user())
     return redirect('/')
 
 
