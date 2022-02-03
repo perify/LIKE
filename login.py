@@ -35,6 +35,5 @@ def get_user():
         r = tlsql.user_search(session['login'])
         if r:
             return tlsql.user_search(session['login'])[0]
-        else:
-            'not login'
+        return 'not login'
     return 'not login'
