@@ -71,5 +71,10 @@ def userlist():
     return users
 
 
+def user_search(num):
+    cursor.execute(f'select * from users where num = {num}')
+    return cursor.fetchall()[0]
+
+
 def delete(interger):
     cursor.execute('DELETE FROM tweet where num={}'.format(interger))

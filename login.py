@@ -16,12 +16,12 @@ def is_login():
 def try_login(user, password):
     userlist = {}
     for i in tlsql.userlist():
-        userlist[i[1]] = [i[2], i[4]]
+        userlist[i[1]] = [i[2], i[4], i[0]]
     if user not in userlist:
         return False
     if userlist[user][0] != hash_password(password, userlist[user][1])[0]:
         return False
-    session['login'] = user
+    session['login'] = userlist[user][2]
     return True
 
 
@@ -32,5 +32,8 @@ def try_logout():
 
 def get_user():
     if is_login():
-        return session['login']
+        r = tlsql.user_search(session['login'])
+        if r:
+            return tlsql.user_search(session['login'])[0]
+        return 'not login'
     return 'not login'
